@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Device Management System{% endblock %}</h1>
+    <a class="action" href="{{ url_for('device.locationMain', id = id, sLid=sLid) }}">Back to Device Page</a>
+{% endblock %}
+
+{% block content %}
+<p> Device ID: {{deviceid}} </p>
+<p> Device Model: {{device['modelname']}}</p>
+<p> Device Properties: {{device['properties']}}</p>
+<h1>Device Energy Consumption Trend</h1>
+{% if plot_image %}
+        <img src="data:image/png;base64,{{ plot_image }}" alt="Device Energy Consumption Trend">
+    {% else %}
+        <p>No plot available for this device because not enough data in database.</p>
+    {% endif %}
+{% if activity %}
+<head>
+<title>Recent Activity</title>
+</head>
+<body>
+    <h1>Recent Activity</h1>
+    {% for entry in activity %}
+        <div class="event">
+            <div class="timestamp">{{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+            {% if entry.value > 0 %}
+            {% if entry.eventLabel=="temp raised" %}
+            <div class="tempraised">{{ entry.eventLabel+" to "+entry.value|string+"°F" }}</div>
+            {% else %}
+            <div class="label">{{ entry.eventLabel+" to "+entry.value|string+"°F" }}</div>
+            {% endif %}
+
+            {% else %}
+            <div class="label">{{ entry.eventLabel }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</body>
+    {% else %}
+        <p>No active activity recently.</p>
+    {% endif %}
+<form action="{{ url_for('device.deleteDevice', id=id, sLid=sLid,deviceid=deviceid) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure? This will also clean all past data records.');">
+  </form>
+{% endblock %}

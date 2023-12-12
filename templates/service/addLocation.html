@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}New Service Location{% endblock %}</h1>
+  <a href="{{ url_for('service.userMain',id=current_user.id) }}">Return</a>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+
+    <label for="addr">Service Location Address</label>
+    <input name="addr" id="addr" value="{{ request.form['addr'] }}" required>
+    <label for="zipcode">Service Location Zipcode</label>
+    <input name="zipcode" id="zipcode" value="{{ request.form['zipcode'] }}" required>
+    <label for="unitNumber">Service Location unitNumber</label>
+    <input name="unitNumber" id="unitNumber" value="{{ request.form['unitNumber'] }}" required>
+    <label for="squareFootage">Service Location squareFootage</label>
+    <input name="squareFootage" id="squareFootage" value="{{ request.form['squareFootage'] }}" required>
+    <label for="bedroomCnt">Service Location bedroomCnt</label>
+    <input name="bedroomCnt" id="bedroomCnt" value="{{ request.form['bedroomCnt'] }}" required>
+    <label for="occupantsCnt">Service Location occupantsCnt</label>
+    <input name="occupantsCnt" id="occupantsCnt" value="{{ request.form['occupantsCnt'] }}" required>
+
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

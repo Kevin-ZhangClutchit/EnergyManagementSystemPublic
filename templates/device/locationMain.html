@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Device In Your Location{% endblock %}</h1>
+{% if current_user.is_authenticated %}
+ <a class="action" href="{{ url_for('device.addDevice', id = current_user.id,sLid=sLid) }}">Add Device</a>
+<a class="action" href="{{ url_for('service.userMain', id = current_user.id) }}">Back to Location Page</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if num > 0 %}
+<h1> There are {{ num }} devices in your current location.</h1>
+{% else %}
+<h1> There are no devices in your current location. Try to add one?</h1>
+{% endif %}
+{% for device in devices %}
+<article class="Devices List:">
+    <header>
+        <div>
+
+            <div class="location-actions">
+                <h1> {{ loop.index }}.{{device['modelname']}}</h1>
+                <a class="action" href="{{ url_for('device.viewOrDeleteDevice', id=current_user.id, sLid=sLid
+                ,deviceid=device['deviceid']) }}">View & Manage</a>
+
+            </div>
+
+            </div>
+        </div>
+    </header>
+    <p class="body">{{ device['properties'] }}</p>
+</article>
+{% if not loop.last %}
+<hr>
+{% endif %}
+{% endfor %}
+{% endblock %}
+

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}New Device{% endblock %}</h1>
+<a href="{{ url_for('service.userMain',id=current_user.id,sLid=sLid) }}">Return</a>
+{% endblock %}
+{% block content %}
+<!--{% for type in type_list %}
+{% for item in type_dict[type] %}
+{{ item['modelid'] }}
+{% endfor %}
+{% endfor %}-->
+<form method="post">
+    <!-- pop-up menu for type -->
+    <label for="select_type">Select type</label>
+    <select name="types" id="select_type">
+        <!--<option value="">---Select Your Type---</option>-->
+        {% for type in type_list %}
+        <option value="{{ type }}">{{ type }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="container">
+        <div class="Light">
+            <label for="select_light_model">Select Light Model</label>
+            <select name="Light" id="select_light_model">
+                {% for item in type_dict["Light"] %}
+                <option value="{{ item['modelid'] }}">{{ item['modelname'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="Refrigerator">
+            <label for="select_refrigerator_model">Select Refrigerator Model</label>
+            <select name="Refrigerator" id="select_refrigerator_model">
+                {% for item in type_dict["Refrigerator"] %}
+                <option value="{{ item['modelid'] }}">{{ item['modelname'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="Air-Conditioner">
+            <label for="select_air-conditioner_model">Select Air Conditioner Model</label>
+            <select name="Air-Conditioner" id="select_air-conditioner_model">
+                {% for item in type_dict["Air-Conditioner"] %}
+                <option value="{{ item['modelid'] }}">{{ item['modelname'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <input type="submit" value="Save" id="submitBtn">
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#select_type').bind('change', function () {
+            var elements = $('div.container').children().hide();
+            var value = $(this).val();
+
+            if (value.length) {
+                elements.filter('.' + value).show();
+            }
+        }).trigger('change');
+    });
+
+</script>
+{% endblock %}

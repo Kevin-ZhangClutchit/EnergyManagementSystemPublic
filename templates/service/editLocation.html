@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Service Location Edit{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+
+    <label for="addr">Service Location Address</label>
+    <input name="addr" id="addr" value="{{ request.form['addr'] or serviceLoc['addr'] }}" required>
+    <label for="zipcode">Service Location Zipcode</label>
+    <input name="zipcode" id="zipcode" value="{{ request.form['zipcode'] or serviceLoc['zipcode'] }}" required>
+    <label for="unitNumber">Service Location unitNumber</label>
+    <input name="unitNumber" id="unitNumber" value="{{ request.form['unitNumber'] or serviceLoc['unitNumber'] }}" required>
+    <label for="squareFootage">Service Location squareFootage</label>
+    <input name="squareFootage" id="squareFootage" value="{{ request.form['squareFootage'] or serviceLoc['squareFootage'] }}" required>
+    <label for="bedroomCnt">Service Location bedroomCnt</label>
+    <input name="bedroomCnt" id="bedroomCnt" value="{{ request.form['bedroomCnt'] or serviceLoc['bedroomCnt']}}" required>
+    <label for="occupantsCnt">Service Location occupantsCnt</label>
+    <input name="occupantsCnt" id="occupantsCnt" value="{{ request.form['occupantsCnt'] or serviceLoc['occupantsCnt'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+<p> Devices attached to this location: {{count}}</p>
+{% if count > 0 %}
+  <p>You cannot delete this location because there are attached devices. Please delete them first!</p>
+{% else %}
+  <form action="{{ url_for('service.deleteLocation', id=serviceLoc['cid'], sLid=sLid) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form>
+{% endif %}
+{% endblock %}

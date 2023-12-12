@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Energy View -- Monthly Energy Consumption According to Location{% endblock %}</h1>
+  {% if current_user.is_authenticated %}
+    <a class="action" href="{{ url_for('blog.index', id = current_user.id) }}">Back to Main Page</a>
+  {% endif %}
+
+{% endblock %}
+
+{% block content %}
+<form action="/view3/" method="post">
+    <label for="year">Select Year:</label>
+    <select id="year" name="year">
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+    </select>
+
+    <label for="month">Select Month:</label>
+    <select id="month" name="month">
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+    </select>
+
+    <input type="submit" value="Submit">
+</form>
+
+{% if selected_year and selected_month %}
+    <h2>You selected: {{ selected_year }} - {{ selected_month }}</h2>
+    {% if plot_image %}
+        <img src="data:image/png;base64,{{ plot_image }}" alt="Monthly Energy Consumption According to Location">
+    {% else %}
+        <p>No plot available because not enough data in database.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}
